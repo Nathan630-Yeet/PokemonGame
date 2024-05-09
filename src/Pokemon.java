@@ -10,9 +10,20 @@ public class Pokemon {
     public Pokemon(String pokeName){
         name = pokeName;
     }
-    public Pokemon(String pokeName, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
+    public Pokemon(String pokeName, String pokeType, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
         name = pokeName;
-        //insert type
+        type = new Type(pokeType);
+        totHP = totalHP;
+        remainHP = totalHP;
+        att = attack;
+        def = defence;
+        speAtt = specialAttack;
+        speDef = specialDefence;
+        speed = spe;
+    }
+    public Pokemon(String pokeName, String pokeType,String pokeTypeB, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
+        name = pokeName;
+        type = new DualType(pokeType,pokeTypeB);
         totHP = totalHP;
         remainHP = totalHP;
         att = attack;
@@ -91,4 +102,17 @@ public class Pokemon {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Pokemon{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                ", totHP=" + totHP +
+                ", att=" + att +
+                ", def=" + def +
+                ", speAtt=" + speAtt +
+                ", speDef=" + speDef +
+                ", speed=" + speed +
+                '}';
+    }
 }
