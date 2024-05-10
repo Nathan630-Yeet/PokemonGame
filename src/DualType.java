@@ -65,6 +65,10 @@ public class DualType extends Type {
         typeIndex = 0;
         type2Index = 1;
     }
+    public DualType(String A){
+        super(A);
+
+    }
 
     @Override
     public int getTypeIndex() {

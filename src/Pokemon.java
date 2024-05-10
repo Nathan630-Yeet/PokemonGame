@@ -2,36 +2,130 @@ public class Pokemon {
 
 
     private String name;
-    private Type type;
+    private DualType type;
     private int totHP, remainHP, att, def, speAtt, speDef, speed;
+    private String nature;
+    private int level = 50;
 
 
 
     public Pokemon(String pokeName){
         name = pokeName;
     }
-    public Pokemon(String pokeName, String pokeType, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
+    public Pokemon(String pokeName, String pokeType, String pokeNature, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
         name = pokeName;
-        type = new Type(pokeType);
-        totHP = totalHP;
-        remainHP = totalHP;
-        att = attack;
-        def = defence;
-        speAtt = specialAttack;
-        speDef = specialDefence;
-        speed = spe;
+        type = new DualType(pokeType);
+
+        totHP = (2 * totalHP) * level/100 + level + 10;
+        remainHP = totHP;
+        nature = pokeNature;
+        att = attack * 2 * level/100 + 5;
+        def = defence * 2 * level/100 + 5;
+        speAtt = specialAttack * 2 * level/100 + 5;
+        speDef = specialDefence * 2 * level/100 + 5;
+        speed = spe * 2 * level/100 + 5;
     }
-    public Pokemon(String pokeName, String pokeType,String pokeTypeB, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
+    public Pokemon(String pokeName, String pokeType,String pokeTypeB, String pokeNature, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
         name = pokeName;
         type = new DualType(pokeType,pokeTypeB);
-        totHP = totalHP;
-        remainHP = totalHP;
-        att = attack;
-        def = defence;
-        speAtt = specialAttack;
-        speDef = specialDefence;
-        speed = spe;
+        totHP = totalHP * 2 * level/100 + level + 10;
+        nature = pokeNature;
+        remainHP = totHP;
+        att = attack * 2 * level/100 + 5;
+        def = defence * 2 * level/100 + 5;
+        speAtt = specialAttack * 2 * level/100 + 5;
+        speDef = specialDefence * 2 * level/100 + 5;
+        speed = spe * 2 * level/100 + 5;
     }
+
+    public String initializeNature() {
+        if(nature.equalsIgnoreCase("bold")) {
+            att = (int)(0.9 * att);
+            def = (int)(1.1*def);
+        }
+        else if(nature.equalsIgnoreCase("modest")) {
+            att = (int)(0.9 * att);
+            speAtt = (int)(1.1*speAtt);
+        }
+        else if(nature.equalsIgnoreCase("mild")) {
+            def = (int)(0.9 * def);
+            speAtt = (int)(1.1*speAtt);
+        }
+        else if(nature.equalsIgnoreCase("calm")) {
+            att = (int)(0.9 * att);
+            speDef = (int)(1.1*speDef);
+        }
+        else if(nature.equalsIgnoreCase("gentle")) {
+            def = (int)(0.9 * def);
+            speDef = (int)(1.1*speDef);
+        }
+        else if(nature.equalsIgnoreCase("careful")) {
+            speAtt = (int)(0.9 * speAtt);
+            speDef = (int)(1.1*speDef);
+        }
+        else if(nature.equalsIgnoreCase("timid")) {
+            att = (int)(0.9 * att);
+            speed = (int)(1.1*speed);
+        }
+        else if(nature.equalsIgnoreCase("hasty")) {
+            def = (int)(0.9 * def);
+            speed = (int)(1.1*speed);
+        }
+        else if(nature.equalsIgnoreCase("jolly")) {
+            speAtt = (int)(0.9 * speAtt);
+            speed = (int)(1.1*speed);
+        }
+        else if(nature.equalsIgnoreCase("naive")) {
+            speDef = (int)(0.9 * speDef);
+            speed = (int)(1.1*speed);
+        }
+        else if(nature.equalsIgnoreCase("lonely")) {
+            att = (int)(1.1 * att);
+            def = (int)(0.9 *def);
+        }
+        else if(nature.equalsIgnoreCase("adamant")) {
+            att = (int)(1.1 * att);
+            speAtt = (int)(0.9* speAtt);
+        }
+        else if(nature.equalsIgnoreCase("naughty")) {
+            att = (int)(1.1 * att);
+            speDef = (int)(0.9*speDef);
+        }
+        else if(nature.equalsIgnoreCase("brave")) {
+            att = (int)(1.1 * att);
+            speed = (int)(0.9*speed);
+        }
+        else if(nature.equalsIgnoreCase("impish")) {
+            speAtt = (int)(0.9 * speAtt);
+            def = (int)(1.1*def);
+        }
+        else if(nature.equalsIgnoreCase("lax")) {
+            speDef = (int)(0.9 * speDef);
+            def = (int)(1.1*def);
+        }
+        else if(nature.equalsIgnoreCase("relaxed")) {
+            speed = (int)(0.9 * speed);
+            def = (int)(1.1*def);
+        }
+        else if(nature.equalsIgnoreCase("rash")) {
+            speAtt = (int)(1.1 * speAtt);
+            speDef = (int)(0.9*speDef);
+        }
+        else if(nature.equalsIgnoreCase("quiet")) {
+            speAtt = (int)(1.1 * speAtt);
+            speed = (int)(0.9*speed);
+        }
+        else if(nature.equalsIgnoreCase("sassy")) {
+            speed = (int)(0.9 * speed);
+            speDef = (int)(1.1*speDef);
+        }
+        return nature;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
     public String getName() {
         return name;
     }
@@ -101,12 +195,35 @@ public class Pokemon {
         }
         return false;
     }
+    public int damageCalc(Pokemon B, AttackingMoves move) {
+        int damageTaken = 0;
+        if(Math.random() < move.getAccuracy()){
+            double random = (Math.random() * 16 + 85)/100.0;
+            if(move.getIsPhysical() == true){
+                damageTaken = ((2*level/5 + 2) * move.getDamage() * att / B.getDef())/50 + 2;
+            }
+            else{
+                damageTaken = ((2*level/5 + 2) * move.getDamage() * speAtt / B.getSpeDef())/50 + 2;
+            }
+            if(move.getType().getTypeIndex() == type.getTypeIndex()||move.getType().getTypeIndex() == type.getType2Index()) {
+                damageTaken = (int)(damageTaken * 1.5);
+            }
+            damageTaken = (int)(damageTaken * random);
+            damageTaken = (int)(damageTaken* move.getType().effectiveMultiplier(B.getType()));
+        }
+        B.setRemainHP(B.getRemainHP()-damageTaken);
+        if(B.getRemainHP() < 0) {
+            B.setRemainHP(0);
+        }
+        return damageTaken;
+    }
 
     @Override
     public String toString() {
         return "Pokemon{" +
                 "name='" + name + '\'' +
                 ", type=" + type +
+                ", remaining Hp =" + remainHP +
                 ", totHP=" + totHP +
                 ", att=" + att +
                 ", def=" + def +
