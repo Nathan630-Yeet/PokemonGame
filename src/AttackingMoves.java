@@ -6,6 +6,11 @@ public class AttackingMoves extends Moves {
         damage = Pdamage;
         isPhysical = Physical;
     }
+    public AttackingMoves(String type, double accuracy, int Pdamage, boolean Physical, int prio) {
+        super(type, accuracy, prio);
+        damage = Pdamage;
+        isPhysical = Physical;
+    }
     public boolean getIsPhysical(){
         return isPhysical;
     }
@@ -13,4 +18,5 @@ public class AttackingMoves extends Moves {
     public int getDamage() {
         return damage;
     }
+
 }

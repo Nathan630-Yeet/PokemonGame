@@ -213,6 +213,7 @@ public class Pokemon {
         }
         B.setRemainHP(B.getRemainHP()-damageTaken);
         if(B.getRemainHP() < 0) {
+            System.out.println(B.getName() + " has fainted");
             B.setRemainHP(0);
         }
         return damageTaken;
