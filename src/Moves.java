@@ -1,4 +1,5 @@
 public class Moves {
+    private String name;
     private Type type;
     private double accuracy;
     private int priority;
@@ -6,15 +7,17 @@ public class Moves {
         type = new Type();
         priority = 0;
     }
-    public Moves(String moveType, double Paccuracy) {
+    public Moves(String moveName, String moveType, double Paccuracy) {
         type = new Type(moveType);
         accuracy = Paccuracy;
         priority = 0;
+        name = moveName;
     }
-    public Moves(String moveType, double Paccuracy, int prio) {
+    public Moves(String moveName, String moveType, double Paccuracy, int prio) {
         type = new Type(moveType);
         accuracy = Paccuracy;
         priority = prio;
+        name = moveName;
     }
 
     public double getAccuracy() {
@@ -27,5 +30,25 @@ public class Moves {
 
     public int getPriority() {
         return priority;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public boolean getIsPhysical(){
+        return true;
+    }
+
+    public int getDamage() {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Moves{" +
+                "type=" + type +
+                ", accuracy=" + accuracy +
+                ", priority=" + priority +
+                '}';
     }
 }

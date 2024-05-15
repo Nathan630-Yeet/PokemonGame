@@ -9,8 +9,8 @@ public class Main {
         System.out.println(weavile.toString());
         System.out.println(chesnaught.toString());
 
-        AttackingMoves tackle = new AttackingMoves("normal", 1.00, 40, true);
-        AttackingMoves iceShard = new AttackingMoves("ice", 1.00, 40, true);
+        AttackingMoves tackle = new AttackingMoves("tackle","normal", 1.00, 40, true);
+        AttackingMoves iceShard = new AttackingMoves("iceShard","ice", 1.00, 40, true, 1);
 
         System.out.println(pikachu.toString());
         chesnaught.damageCalc(pikachu, tackle);

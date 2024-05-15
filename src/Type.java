@@ -91,14 +91,17 @@ public class Type {
         return typeIndex;
     }
 
+    public int getType2Index() {
+        return 0;
+    }
+
     public void setTypeIndex(int typeIndex) {
         this.typeIndex = typeIndex;
     }
-    public double effectiveMultiplier(DualType B) {
-        return chart[this.getTypeIndex()][B.getTypeIndex()] * chart[this.getTypeIndex()][B.getType2Index()];
-    }
+
     public double effectiveMultiplier(Type B) {
-        return chart[this.getTypeIndex()][B.getTypeIndex()];
+
+        return chart[this.getTypeIndex()][B.getTypeIndex()]* chart[this.getTypeIndex()][B.getType2Index()];
     }
 
     @Override

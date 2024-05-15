@@ -5,6 +5,7 @@ public class Pokemon {
     private DualType type;
     private int totHP, remainHP, att, def, speAtt, speDef, speed;
     private String nature;
+    private Moves move1, move2, move3, move4;
     private int level = 50;
 
 
@@ -36,6 +37,22 @@ public class Pokemon {
         speAtt = specialAttack * 2 * level/100 + 5;
         speDef = specialDefence * 2 * level/100 + 5;
         speed = spe * 2 * level/100 + 5;
+    }
+    public Pokemon(String pokeName, String pokeType,String pokeTypeB, String pokeNature, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe, Moves moveA, Moves moveB, Moves moveC, Moves moveD) {
+        name = pokeName;
+        type = new DualType(pokeType,pokeTypeB);
+        totHP = totalHP * 2 * level/100 + level + 10;
+        nature = pokeNature;
+        remainHP = totHP;
+        att = attack * 2 * level/100 + 5;
+        def = defence * 2 * level/100 + 5;
+        speAtt = specialAttack * 2 * level/100 + 5;
+        speDef = specialDefence * 2 * level/100 + 5;
+        speed = spe * 2 * level/100 + 5;
+        move1 = moveA;
+        move2 = moveB;
+        move3 = moveC;
+        move4 = moveD;
     }
 
     public String initializeNature() {
@@ -122,6 +139,22 @@ public class Pokemon {
         return nature;
     }
 
+    public Moves getMove1() {
+        return move1;
+    }
+
+    public Moves getMove2() {
+        return move2;
+    }
+
+    public Moves getMove3() {
+        return move3;
+    }
+
+    public Moves getMove4() {
+        return move4;
+    }
+
     public Type getType() {
         return type;
     }
@@ -195,7 +228,7 @@ public class Pokemon {
         }
         return false;
     }
-    public int damageCalc(Pokemon B, AttackingMoves move) {
+    public int damageCalc(Pokemon B, Moves move) {
         int damageTaken = 0;
         if(Math.random() < move.getAccuracy()){
             double random = (Math.random() * 16 + 85)/100.0;
@@ -207,17 +240,34 @@ public class Pokemon {
             }
             if(move.getType().getTypeIndex() == type.getTypeIndex()||move.getType().getTypeIndex() == type.getType2Index()) {
                 damageTaken = (int)(damageTaken * 1.5);
+                System.out.println("stab");
             }
             damageTaken = (int)(damageTaken * random);
             damageTaken = (int)(damageTaken* move.getType().effectiveMultiplier(B.getType()));
+            if(move.getType().effectiveMultiplier(B.getType()) == 2.0) {
+                System.out.println("super effective!");
+            }
+            else if(move.getType().effectiveMultiplier(B.getType()) == 4.0) {
+                System.out.println("super SUPER effective!");
+            }
+            else if(move.getType().effectiveMultiplier(B.getType()) == 0.5) {
+                System.out.println("not very effective");
+            }
+            else if(move.getType().effectiveMultiplier(B.getType()) == 0.25) {
+                System.out.println("burh");
+            }
+            else if(move.getType().effectiveMultiplier(B.getType()) == 0.0) {
+                System.out.println("no effect");
+            }
         }
         B.setRemainHP(B.getRemainHP()-damageTaken);
-        if(B.getRemainHP() < 0) {
+        if(B.getRemainHP() <= 0) {
             System.out.println(B.getName() + " has fainted");
             B.setRemainHP(0);
         }
         return damageTaken;
     }
+
 
     @Override
     public String toString() {
