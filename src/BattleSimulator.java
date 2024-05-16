@@ -8,7 +8,9 @@ public class BattleSimulator {
     JFrame aFrame, bFrame;
     JPanel playerPanel, oppPanel, bottomPanel, aPanel, bPanel, cPanel, dPanel;
     JButton attack, switchP, moveA, moveB, moveC, moveD;
+    JLabel playerHealth, oppHealth;
     Pokemon poke1, poke2;
+    String userTurn;
 
 
     public BattleSimulator(Pokemon pokeA, Pokemon pokeB) {
@@ -19,9 +21,21 @@ public class BattleSimulator {
         aFrame = new JFrame("Pokemon Battle Simulator");
         aFrame.setLayout(new BorderLayout());
         aFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         bottomPanel = new JPanel();
-//        aFrame.add(playerPanel, BorderLayout.CENTER);
-//        aFrame.add(oppPanel, BorderLayout.NORTH);
+        playerPanel = new JPanel();
+        oppPanel = new JPanel();
+        playerHealth = new JLabel();
+        playerHealth.setText(pokeA.getRemainHP() + "/" + pokeA.getTotHP());
+        oppHealth = new JLabel();
+        oppHealth.setText(pokeB.getRemainHP() + "/" + pokeB.getTotHP());
+        playerPanel.add(playerHealth);
+        oppPanel.add(oppHealth);
+
+
+
+        aFrame.add(playerPanel, BorderLayout.CENTER);
+        aFrame.add(oppPanel, BorderLayout.NORTH);
         aFrame.add(bottomPanel, BorderLayout.SOUTH);
         attack = new JButton("attack!");
         switchP = new JButton("switch");
@@ -59,6 +73,35 @@ public class BattleSimulator {
         moveD.addActionListener(this::actionPerformed);
 
     }
+    public void playTurn(Moves move, Moves move2){
+        if(poke1.isFainted() || poke2.isFainted()) {
+            System.out.println("battle end");
+        }
+        else {
+            if(poke1.goFirst(poke2)){
+                poke1.damageCalc(poke2, move);
+                if(!(poke1.isFainted() && poke2.isFainted())) {
+                    poke2.damageCalc(poke1, move2);
+                }
+
+            }
+            else{
+                poke2.damageCalc(poke1, move2);
+                if(!(poke1.isFainted() && poke2.isFainted())) {
+                    poke1.damageCalc(poke2, move);
+                }
+            }
+
+
+
+
+            System.out.println(poke2.toString());
+            System.out.println(poke1.toString());
+            oppHealth.setText(poke2.getRemainHP() + "/" + poke2.getTotHP());
+            playerHealth.setText(poke1.getRemainHP() + "/" + poke2.getTotHP());
+        }
+
+    }
     public void actionPerformed(ActionEvent ae) {
         String buttonName = ae.getActionCommand();
 
@@ -67,41 +110,29 @@ public class BattleSimulator {
         }
         if(buttonName.equalsIgnoreCase(poke1.getMove1().getName())) {
 
-            poke1.damageCalc(poke2, poke1.getMove1());
-            System.out.println(poke2.toString());
-            poke2.damageCalc(poke1, poke1.getMove1());
-            System.out.println(poke1.toString());
+            playTurn(poke1.getMove1(), poke2.getMove1());
         }
         if(buttonName.equalsIgnoreCase(poke1.getMove2().getName())) {
 
-            poke1.damageCalc(poke2, poke1.getMove2());
-            System.out.println(poke2.toString());
-            poke2.damageCalc(poke1, poke1.getMove1());
-            System.out.println(poke1.toString());
-
+            playTurn(poke1.getMove2(), poke2.getMove2());
         }
         if(buttonName.equalsIgnoreCase(poke1.getMove3().getName())) {
 
-            poke1.damageCalc(poke2, poke1.getMove3());
-            System.out.println(poke2.toString());
-            poke2.damageCalc(poke1, poke1.getMove1());
-            System.out.println(poke1.toString());
+            playTurn(poke1.getMove3(), poke2.getMove3());
         }
         if(buttonName.equalsIgnoreCase(poke1.getMove4().getName())) {
 
-            poke1.damageCalc(poke2, poke1.getMove4());
-            System.out.println(poke2.toString());
-            poke2.damageCalc(poke1, poke1.getMove1());
-            System.out.println(poke1.toString());
+            playTurn(poke1.getMove4(),poke2.getMove4());
         }
 
     }
     public static void main(String[] args) {
-        AttackingMoves tackle = new AttackingMoves("tackle","normal", 1.00, 40, true);
+        AttackingMoves tackle = new AttackingMoves("tackle","normal", 1.00, 40, true, false);
         AttackingMoves iceShard = new AttackingMoves("ice Shard","ice", 1.00, 40, true, 1);
-        AttackingMoves bite = new AttackingMoves("bite","dark", 1.00, 60, true);
-        AttackingMoves dazzlingGleam = new AttackingMoves("dazzling Gleam","fairy", 1.00, 80, false);
-        Pokemon chesnaught = new Pokemon("Chesnaught", "grass", "fighting", "hardy", 88, 107, 122,74,75,64);
+        AttackingMoves bite = new AttackingMoves("bite","dark", 1.00, 60, true, false);
+        AttackingMoves dazzlingGleam = new AttackingMoves("dazzling Gleam","fairy", 1.00, 80, false, false);
+        AttackingMoves woodHammer = new AttackingMoves("Wood hammer","grass", 1.00, 120, true, true);
+        Pokemon chesnaught = new Pokemon("Chesnaught", "grass", "fighting", "hardy", 88, 107, 122,74,75,64, tackle, woodHammer, tackle, tackle);
         Pokemon weavile = new Pokemon("weavile","ice","dark", "hardy", 70, 120, 65,45,85,125, tackle, iceShard, bite, dazzlingGleam);
 
         BattleSimulator BS = new BattleSimulator(weavile, chesnaught);

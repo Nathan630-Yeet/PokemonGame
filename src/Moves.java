@@ -38,6 +38,10 @@ public class Moves {
     public boolean getIsPhysical(){
         return true;
     }
+    public boolean isRecoil() {
+        return false;
+    }
+
 
     public int getDamage() {
         return 0;

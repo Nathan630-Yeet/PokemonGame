@@ -7,6 +7,7 @@ public class Pokemon {
     private String nature;
     private Moves move1, move2, move3, move4;
     private int level = 50;
+    private boolean fainted;
 
 
 
@@ -25,6 +26,7 @@ public class Pokemon {
         speAtt = specialAttack * 2 * level/100 + 5;
         speDef = specialDefence * 2 * level/100 + 5;
         speed = spe * 2 * level/100 + 5;
+        fainted = false;
     }
     public Pokemon(String pokeName, String pokeType,String pokeTypeB, String pokeNature, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe) {
         name = pokeName;
@@ -37,6 +39,7 @@ public class Pokemon {
         speAtt = specialAttack * 2 * level/100 + 5;
         speDef = specialDefence * 2 * level/100 + 5;
         speed = spe * 2 * level/100 + 5;
+        fainted = false;
     }
     public Pokemon(String pokeName, String pokeType,String pokeTypeB, String pokeNature, int totalHP, int attack, int defence, int specialAttack, int specialDefence, int spe, Moves moveA, Moves moveB, Moves moveC, Moves moveD) {
         name = pokeName;
@@ -53,6 +56,7 @@ public class Pokemon {
         move2 = moveB;
         move3 = moveC;
         move4 = moveD;
+        fainted = false;
     }
 
     public String initializeNature() {
@@ -149,6 +153,10 @@ public class Pokemon {
 
     public Moves getMove3() {
         return move3;
+    }
+
+    public boolean isFainted() {
+        return fainted;
     }
 
     public Moves getMove4() {
@@ -262,6 +270,17 @@ public class Pokemon {
         }
         B.setRemainHP(B.getRemainHP()-damageTaken);
         if(B.getRemainHP() <= 0) {
+            System.out.println(B.getName() + " has fainted");
+            B.setRemainHP(0);
+        }
+        if(move.isRecoil()){
+            remainHP -= (int)(damageTaken * 0.33333333);
+            if(remainHP <= 0) {
+                System.out.println(name + " has fainted");
+                remainHP = 0;
+            }
+        }
+        if(remainHP <= 0) {
             System.out.println(B.getName() + " has fainted");
             B.setRemainHP(0);
         }
