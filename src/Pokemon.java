@@ -268,21 +268,28 @@ public class Pokemon {
                 System.out.println("no effect");
             }
         }
+        else{
+            System.out.println("the move missed");
+            System.out.println(move.getAccuracy());
+        }
         B.setRemainHP(B.getRemainHP()-damageTaken);
         if(B.getRemainHP() <= 0) {
             System.out.println(B.getName() + " has fainted");
+            B.fainted = true;
             B.setRemainHP(0);
         }
         if(move.isRecoil()){
             remainHP -= (int)(damageTaken * 0.33333333);
             if(remainHP <= 0) {
                 System.out.println(name + " has fainted");
+                fainted = true;
                 remainHP = 0;
             }
         }
         if(remainHP <= 0) {
             System.out.println(B.getName() + " has fainted");
             B.setRemainHP(0);
+            fainted = true;
         }
         return damageTaken;
     }

@@ -1,16 +1,16 @@
 public class AttackingMoves extends Moves {
-    private int damage;
+    private int power;
     private boolean isPhysical;
     private boolean recoil;
     public AttackingMoves(String moveName, String type, double accuracy, int Pdamage, boolean Physical, boolean hasRecoil) {
         super(moveName, type, accuracy);
         recoil = hasRecoil;
-        damage = Pdamage;
+        power = Pdamage;
         isPhysical = Physical;
     }
     public AttackingMoves(String moveName, String type, double accuracy, int Pdamage, boolean Physical, int prio) {
         super(moveName, type, accuracy, prio);
-        damage = Pdamage;
+        power = Pdamage;
         isPhysical = Physical;
     }
     public boolean getIsPhysical(){
@@ -22,7 +22,18 @@ public class AttackingMoves extends Moves {
     }
 
     public int getDamage() {
-        return damage;
+        return power;
     }
 
+    @Override
+    public String toString() {
+        return "AttackingMoves{" +
+                "power=" + power +
+                ", isPhysical=" + isPhysical +
+                ", recoil=" + recoil +
+                "type=" + this.getType() +
+                ", accuracy=" + this.getAccuracy() +
+                ", priority=" + this.getType() +
+                '}';
+    }
 }

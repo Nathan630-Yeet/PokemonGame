@@ -1,16 +1,30 @@
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+
+
 
 public class BattleSimulator {
-    //
+    private static final String USER_AGENT = "Mozilla/5.0";
     JFrame aFrame, bFrame;
     JPanel playerPanel, oppPanel, bottomPanel, aPanel, bPanel, cPanel, dPanel;
     JButton attack, switchP, moveA, moveB, moveC, moveD;
     JLabel playerHealth, oppHealth;
+    JTextPane info;
     Pokemon poke1, poke2;
     String userTurn;
+    String GET_URL;
 
 
     public BattleSimulator(Pokemon pokeA, Pokemon pokeB) {
@@ -23,6 +37,7 @@ public class BattleSimulator {
         aFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
         playerPanel = new JPanel();
         oppPanel = new JPanel();
         playerHealth = new JLabel();
@@ -31,12 +46,15 @@ public class BattleSimulator {
         oppHealth.setText(pokeB.getRemainHP() + "/" + pokeB.getTotHP());
         playerPanel.add(playerHealth);
         oppPanel.add(oppHealth);
+        info = new JTextPane();
+        info.setText("battle start");
 
 
 
-        aFrame.add(playerPanel, BorderLayout.CENTER);
+        aFrame.add(playerPanel, BorderLayout.SOUTH);
         aFrame.add(oppPanel, BorderLayout.NORTH);
-        aFrame.add(bottomPanel, BorderLayout.SOUTH);
+        aFrame.add(info, BorderLayout.CENTER);
+        aFrame.add(bottomPanel, BorderLayout.EAST);
         attack = new JButton("attack!");
         switchP = new JButton("switch");
         bottomPanel.add(attack);
@@ -79,8 +97,11 @@ public class BattleSimulator {
         }
         else {
             if(poke1.goFirst(poke2)){
+                info.setText(info.getText() + poke1.getName() + " attacked " + poke2.getName() + " with " + move.getName());
+
                 poke1.damageCalc(poke2, move);
                 if(!(poke1.isFainted() && poke2.isFainted())) {
+                    info.setText(info.getText() + poke2.getName() + " attacked " + poke1.getName() + " with " + move2.getName());
                     poke2.damageCalc(poke1, move2);
                 }
 
@@ -126,16 +147,44 @@ public class BattleSimulator {
         }
 
     }
-    public static void main(String[] args) {
-        AttackingMoves tackle = new AttackingMoves("tackle","normal", 1.00, 40, true, false);
-        AttackingMoves iceShard = new AttackingMoves("ice Shard","ice", 1.00, 40, true, 1);
-        AttackingMoves bite = new AttackingMoves("bite","dark", 1.00, 60, true, false);
-        AttackingMoves dazzlingGleam = new AttackingMoves("dazzling Gleam","fairy", 1.00, 80, false, false);
-        AttackingMoves woodHammer = new AttackingMoves("Wood hammer","grass", 1.00, 120, true, true);
+    private static void sendGET() throws IOException {
+        URL obj = new URL("https://pokeapi.co/api/v2/move/8/");
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        System.out.println("GET Response Code :: " + responseCode);
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+
+            Gson gson = builder.create();
+            AttackingMoves moveList = gson.fromJson(response.toString(), AttackingMoves.class);
+            System.out.println(moveList);
+
+        } else {
+            System.out.println("GET request did not work.");
+        }
+    }
+    public static void main(String[] args) throws IOException{
+        AttackingMoves tackle = new AttackingMoves("tackle","normal", 100, 40, true, false);
+        AttackingMoves iceShard = new AttackingMoves("ice Shard","ice", 100, 40, true, 1);
+        AttackingMoves bite = new AttackingMoves("bite","dark", 100, 60, true, false);
+        AttackingMoves dazzlingGleam = new AttackingMoves("dazzling Gleam","fairy", 100, 80, false, false);
+        AttackingMoves woodHammer = new AttackingMoves("Wood hammer","grass", 100, 120, true, true);
         Pokemon chesnaught = new Pokemon("Chesnaught", "grass", "fighting", "hardy", 88, 107, 122,74,75,64, tackle, woodHammer, tackle, tackle);
         Pokemon weavile = new Pokemon("weavile","ice","dark", "hardy", 70, 120, 65,45,85,125, tackle, iceShard, bite, dazzlingGleam);
 
         BattleSimulator BS = new BattleSimulator(weavile, chesnaught);
+        BS.sendGET();
     }
 
 }

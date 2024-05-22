@@ -9,13 +9,13 @@ public class Moves {
     }
     public Moves(String moveName, String moveType, double Paccuracy) {
         type = new Type(moveType);
-        accuracy = Paccuracy;
+        accuracy = Paccuracy/100.0;
         priority = 0;
         name = moveName;
     }
     public Moves(String moveName, String moveType, double Paccuracy, int prio) {
         type = new Type(moveType);
-        accuracy = Paccuracy;
+        accuracy = Paccuracy/100.0;
         priority = prio;
         name = moveName;
     }
