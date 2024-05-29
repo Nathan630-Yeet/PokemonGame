@@ -47,7 +47,7 @@ public class BattleSimulator {
         playerPanel.add(playerHealth);
         oppPanel.add(oppHealth);
         info = new JTextPane();
-        info.setText("battle start");
+        info.setText("battle start\n");
 
 
 
@@ -93,23 +93,40 @@ public class BattleSimulator {
     }
     public void playTurn(Moves move, Moves move2){
         if(poke1.isFainted() || poke2.isFainted()) {
+
             System.out.println("battle end");
         }
         else {
             if(poke1.goFirst(poke2)){
-                info.setText(info.getText() + poke1.getName() + " attacked " + poke2.getName() + " with " + move.getName());
+                info.setText(info.getText() + poke1.getName() + " attacked " + poke2.getName() + " with " + move.getName() + "\n");
 
                 poke1.damageCalc(poke2, move);
-                if(!(poke1.isFainted() && poke2.isFainted())) {
-                    info.setText(info.getText() + poke2.getName() + " attacked " + poke1.getName() + " with " + move2.getName());
+                if(!(poke1.isFainted() || poke2.isFainted())) {
+                    info.setText(info.getText() + poke2.getName() + " attacked " + poke1.getName() + " with " + move2.getName()+ "\n");
                     poke2.damageCalc(poke1, move2);
+                }
+                else {
+                    if(poke1.isFainted()) {
+                        info.setText(info.getText() + poke1.getName() + " fainted \n");
+                    }if(poke2.isFainted()) {
+                        info.setText(info.getText() + poke2.getName() + " fainted \n");
+                    }
+
                 }
 
             }
             else{
                 poke2.damageCalc(poke1, move2);
-                if(!(poke1.isFainted() && poke2.isFainted())) {
+                if(!(poke1.isFainted()||poke2.isFainted())) {
                     poke1.damageCalc(poke2, move);
+                }
+                else {
+                    if(poke1.isFainted()) {
+                        info.setText(info.getText() + poke1.getName() + " fainted \n");
+                    }if(poke2.isFainted()) {
+                        info.setText(info.getText() + poke2.getName() + " fainted \n");
+                    }
+
                 }
             }
 
@@ -120,6 +137,12 @@ public class BattleSimulator {
             System.out.println(poke1.toString());
             oppHealth.setText(poke2.getRemainHP() + "/" + poke2.getTotHP());
             playerHealth.setText(poke1.getRemainHP() + "/" + poke2.getTotHP());
+
+            if(poke1.isFainted()) {
+                info.setText(info.getText() + poke1.getName() + " fainted \n" + poke2.getName() + " has won\n");
+            }if(poke2.isFainted()) {
+                info.setText(info.getText() + poke2.getName() + " fainted \n" + poke1.getName() + " has won\n");
+            }
         }
 
     }

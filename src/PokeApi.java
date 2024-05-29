@@ -5,7 +5,6 @@ import java.net.URL;
 import org.json.JSONObject;
 
 public class PokeApi {
-
     private static final String BASE_URL = "https://pokeapi.co/api/v2/";
 
     public static JSONObject getPokemonData(String pokemonName) throws Exception {
@@ -14,6 +13,7 @@ public class PokeApi {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         int responseCode = conn.getResponseCode();
+
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String inputLine;
