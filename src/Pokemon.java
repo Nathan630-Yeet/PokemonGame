@@ -300,11 +300,11 @@ public class Pokemon {
             String temp = "";
             if(Math.random() < move.getAccuracy()){
                 double random = (Math.random() * 16 + 85)/100.0;
-                if(move.getCategory().equalsIgnoreCase("physical")){
-                    damageTaken = ((2*level/5 + 2) * move.getDamage() * att / B.getDef())/50 + 2;
+                if(move.getCategory().equals("physical")){
+                    damageTaken = ((2*level/5 + 2) * move.getPower() * att / B.getDef())/50 + 2;
                 }
                 else{
-                    damageTaken = ((2*level/5 + 2) * move.getDamage() * speAtt / B.getSpeDef())/50 + 2;
+                    damageTaken = ((2*level/5 + 2) * move.getPower() * speAtt / B.getSpeDef())/50 + 2;
                 }
                 if(move.getType().getTypeIndex() == type.getTypeIndex()||move.getType().getTypeIndex() == type.getType2Index()) {
                     damageTaken = (int)(damageTaken * 1.5);
@@ -343,6 +343,7 @@ public class Pokemon {
                 B.setRemainHP(0);
                 fainted = true;
             }
+            System.out.println(temp);
             return temp;
         }
 

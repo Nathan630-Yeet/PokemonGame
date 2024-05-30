@@ -66,12 +66,14 @@ public class PokemonBattleGUI extends JFrame {
             Pokemon pokemon2 = new Pokemon(pokemon2Name);
 
             BattleSimulator BS = new BattleSimulator(pokemon1, pokemon2);
+            setVisible(false);
 
 
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error fetching Pokémon data", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     private void customBattle() {
@@ -88,6 +90,7 @@ public class PokemonBattleGUI extends JFrame {
             Pokemon pokemon2 = new Pokemon(pokemon2Name.trim());
 
             BattleSimulator BS = new BattleSimulator(pokemon1, pokemon2);
+            setVisible(false);
 
         } catch (Exception ex) {
             ex.printStackTrace();

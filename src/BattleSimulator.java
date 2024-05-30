@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -88,41 +89,14 @@ public class BattleSimulator {
         aFrame.setVisible(true);
 
 
-        attack.addActionListener(ae -> {
-            try {
-                actionPerformed(ae);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        moveA.addActionListener(ae -> {
-            try {
-                actionPerformed(ae);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        moveB.addActionListener(ae -> {
-            try {
-                actionPerformed(ae);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        moveC.addActionListener(ae -> {
-            try {
-                actionPerformed(ae);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        moveD.addActionListener(ae -> {
-            try {
-                actionPerformed(ae);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
+        for (JButton jButton : Arrays.asList(attack, moveA, moveB, moveC, moveD))
+            jButton.addActionListener(ae -> {
+                try {
+                    actionPerformed(ae);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
     }
     public void playTurn(Moves move, Moves move2){
@@ -182,15 +156,13 @@ public class BattleSimulator {
 
 
     }
-    public void actionPerformed(ActionEvent ae) throws Exception {
+    public void actionPerformed(ActionEvent ae) {
         String buttonName = ae.getActionCommand();
-
 
         if (buttonName.equals("attack!")) {
             bFrame.setVisible(true);
         }
         if(buttonName.equals("custom")) {
-            System.out.println("aaaa");
             String pokemon1Name = JOptionPane.showInputDialog(this, "Enter name of Pokemon 1:");
             String pokemon2Name = JOptionPane.showInputDialog(this, "Enter name of Pokemon 2:");
 
@@ -200,19 +172,35 @@ public class BattleSimulator {
         }
 
         if(buttonName.equalsIgnoreCase(poke1.getMove1())) {
-            playTurn(PokeApi.moveAPI(poke1.getMove1()), PokeApi.moveAPI(poke2.getMove1()));
+            try {
+                playTurn(Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke1.getMove1())), Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke2.getMove1())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if(buttonName.equalsIgnoreCase(poke1.getMove2())) {
 
-            playTurn(PokeApi.moveAPI(poke1.getMove2()), PokeApi.moveAPI(poke2.getMove2()));
+            try {
+                playTurn(Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke1.getMove2())), Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke2.getMove2())));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         if(buttonName.equalsIgnoreCase(poke1.getMove3())) {
 
-            playTurn(PokeApi.moveAPI(poke1.getMove3()), PokeApi.moveAPI(poke2.getMove3()));
+            try {
+                playTurn(Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke1.getMove2())), Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke2.getMove2())));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         if(buttonName.equalsIgnoreCase(poke1.getMove4())) {
 
-            playTurn(PokeApi.moveAPI(poke1.getMove4()), PokeApi.moveAPI(poke2.getMove4()));
+            try {
+                playTurn(Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke1.getMove4())), Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke2.getMove4())));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
 
