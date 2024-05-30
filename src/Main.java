@@ -9,13 +9,13 @@ public class Main {
         System.out.println(weavile.toString());
         System.out.println(chesnaught.toString());
 
-        AttackingMoves tackle = new AttackingMoves("tackle","normal", 1.00, 40, true, false);
-        AttackingMoves iceShard = new AttackingMoves("iceShard","ice", 1.00, 40, true, 1);
+//        AttackingMoves tackle = new AttackingMoves("tackle","normal", 1.00, 40, true, false);
+//        AttackingMoves iceShard = new AttackingMoves("iceShard","ice", 1.00, 40, true, 1);
 
-        System.out.println(pikachu.toString());
-        chesnaught.damageCalc(pikachu, tackle);
-        System.out.println(pikachu.toString());
-        System.out.println(chesnaught.toString());
+//        System.out.println(pikachu.toString());
+//        chesnaught.damageCalc(pikachu, tackle);
+//        System.out.println(pikachu.toString());
+//        System.out.println(chesnaught.toString());
 
 
 

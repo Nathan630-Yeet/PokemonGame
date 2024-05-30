@@ -1,2 +1,5 @@
-public class StatusMoves extends Moves{
-}
+//public class StatusMoves extends Moves{
+//    String effect;
+//
+//
+//}

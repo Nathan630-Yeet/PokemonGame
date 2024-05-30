@@ -1,45 +1,38 @@
 public class Moves {
     private String name;
-    private Type type;
-    private double accuracy;
-    private int priority;
-    public Moves() {
-        type = new Type();
-        priority = 0;
+    private String type;
+    private String category;
+    private int power;
+    private int accuracy;
+    public Moves(String name, String type, String category, int power, int accuracy) {
+        this.name = name;
+        this.type = type;
+        this.category = category;
+        this.power = power;
+        this.accuracy = accuracy;
     }
-    public Moves(String moveName, String moveType, double Paccuracy) {
-        type = new Type(moveType);
-        accuracy = Paccuracy/100.0;
-        priority = 0;
-        name = moveName;
-    }
-    public Moves(String moveName, String moveType, double Paccuracy, int prio) {
-        type = new Type(moveType);
-        accuracy = Paccuracy/100.0;
-        priority = prio;
-        name = moveName;
-    }
-
-    public double getAccuracy() {
-        return accuracy;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public int getPriority() {
-        return priority;
+    public Moves(String moveName) {
+        this.name = moveName;
     }
 
     public String getName() {
         return name;
     }
-    public boolean getIsPhysical(){
-        return true;
+
+    public Type getType() {
+        return new Type(type);
     }
-    public boolean isRecoil() {
-        return false;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getAccuracy() {
+        return accuracy;
     }
 
 
@@ -52,7 +45,6 @@ public class Moves {
         return "Moves{" +
                 "type=" + type +
                 ", accuracy=" + accuracy +
-                ", priority=" + priority +
                 '}';
     }
 }
