@@ -161,6 +161,7 @@ public class BattleSimulator {
 
         if (buttonName.equals("attack!")) {
             bFrame.setVisible(true);
+            bFrame.setLocation(500,100);
         }
         if(buttonName.equals("custom")) {
             String pokemon1Name = JOptionPane.showInputDialog(this, "Enter name of Pokemon 1:");
@@ -189,7 +190,7 @@ public class BattleSimulator {
         if(buttonName.equalsIgnoreCase(poke1.getMove3())) {
 
             try {
-                playTurn(Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke1.getMove2())), Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke2.getMove2())));
+                playTurn(Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke1.getMove3())), Moves.fetchMoveDataFromAPI(PokeApi.moveAPI(poke2.getMove3())));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
